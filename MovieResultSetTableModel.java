@@ -1,3 +1,11 @@
+/*
+ * ResultSetModel Class 
+ * Establishes Database Connection
+ * Create Movie Table 
+ * Create PrepareStatements for Select All Entries and Insert a New Row
+ * Implements the methods for AbstractTableModel Interface as appropriate
+ * 
+ */
 package module5;
 
 import java.sql.Connection;
@@ -32,7 +40,7 @@ public class MovieResultSetTableModel extends AbstractTableModel{
 
 			System.out.println("Creating MovieDB prepareStatement");
 			
-			selectAllMovie = connection.prepareStatement("Select * From movie",ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
+			selectAllMovie = connection.prepareStatement("Select * From movie",ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
 			addNewMovie = connection.prepareStatement("INSERT INTO movie VALUES (?,?,?,?)");
 			
 			selectAllMovie();
@@ -47,7 +55,7 @@ public class MovieResultSetTableModel extends AbstractTableModel{
 		try {
 			statement = connection.createStatement();
 			System.out.println("Creating Table - This will throw an exception if the table is already created.");
-			statement.execute("CREATE TABLE movie (" + "id INTEGER PRIMARY KEY," + "name VARCHAR(255)," + "rating INTEGER," + "description VARCHAR(255))");
+			statement.execute("CREATE TABLE movie (" + "id INTEGER PRIMARY KEY ," + "name VARCHAR(255)," + "rating INTEGER NOT NULL CHECK(rating BETWEEN 1 AND 10)," + "description VARCHAR(255))");
 		} catch (SQLException sqlException) {
 			sqlException.printStackTrace();
 		}
@@ -108,7 +116,7 @@ public class MovieResultSetTableModel extends AbstractTableModel{
 			addNewMovie.setInt(3, rating);
 			addNewMovie.setString(4, desc);
 			return addNewMovie.executeUpdate();
-			
+					
 		} catch (SQLException sqlExeption) {
 			sqlExeption.printStackTrace();
 		}
@@ -118,12 +126,11 @@ public class MovieResultSetTableModel extends AbstractTableModel{
 	
 	public void selectAllMovie() {
 		try {
-			System.out.println("In Selectall" + numberOfRows);
-             resultSet = selectAllMovie.executeQuery();
-			 metadata = resultSet.getMetaData();
-			 resultSet.last();
-			 numberOfRows = resultSet.getRow();
-			 System.out.println("In Selectall end " + numberOfRows);
+             this.resultSet = selectAllMovie.executeQuery();
+			 this.metadata = resultSet.getMetaData();
+			 this.resultSet.last();
+			 this.numberOfRows = this.resultSet.getRow();
+			 this.fireTableDataChanged();
 			 
 		} catch (SQLException sqlExeption) {
 			sqlExeption.printStackTrace();

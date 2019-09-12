@@ -1,3 +1,7 @@
+/*
+ * Application View Class 
+ * Create GUI
+ */
 package module5;
 
 import java.awt.BorderLayout;
@@ -17,11 +21,11 @@ public class MovieAppView extends JFrame{
 	private JTextField textRating = new JTextField();
 	private JLabel     labelDesc = new JLabel("Description");
 	private JTextField textDesc = new JTextField();
-	private JButton buttonAdd = new JButton("Insert");
-	private JButton buttonRef = new JButton("Refresh");
-	
-	
-	MovieResultSetTableModel model = new MovieResultSetTableModel(); 
+	private JButton    buttonAdd = new JButton("Insert");
+	private JButton    buttonRef = new JButton("Refresh");
+	private MovieResultSetTableModel model = new MovieResultSetTableModel(); 
+	private JTable jtbl = new JTable(model);
+	private JScrollPane jscollpane = new JScrollPane(jtbl);
 	
 	MovieAppView() {
 		
@@ -29,8 +33,8 @@ public class MovieAppView extends JFrame{
 	
 	this.setSize(900,400);
 	this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-	JTable jtbl = new JTable(model);
-	jtbl.setRowHeight(30);
+	
+	jtbl.setRowHeight(20);
 	labelID.setBounds(20,220,100,25);	
 	textID.setBounds(130,220,255,25);
 	labelName.setBounds(20,250,100,25);	
@@ -43,9 +47,8 @@ public class MovieAppView extends JFrame{
 	buttonAdd.setBounds(20,340,100,25);
 	buttonRef.setBounds(130,340,100,25);
 	
-	JScrollPane pg = new JScrollPane(jtbl);
-	pg.setBounds(0,0,900,220);
-	this.add(pg);
+	jscollpane.setBounds(0,0,900,220);
+	this.add(jscollpane);
 	this.add(labelID);
 	this.add(labelName);
 	this.add(labelRating);
@@ -57,7 +60,6 @@ public class MovieAppView extends JFrame{
 	this.add(buttonAdd);
 	this.add(buttonRef);
 	
-    
     }
 	
 	public int getID() {
@@ -80,6 +82,20 @@ public class MovieAppView extends JFrame{
 		
 	}
 	
+	public void resetColumns() {
+		this.textID.setText(""); 
+		this.textName.setText(""); 
+		this.textRating.setText(""); 
+		this.textDesc.setText(""); 
+		
+		
+	}
+	
+	
+	public MovieResultSetTableModel getModel() {
+		return this.model;
+	}
+	
 	void buttonAddListener(ActionListener listenForAddButton) {
 		this.buttonAdd.addActionListener(listenForAddButton);
 	}
@@ -87,6 +103,8 @@ public class MovieAppView extends JFrame{
 	void buttonRefListener(ActionListener listenForRefButton) {
 		this.buttonRef.addActionListener(listenForRefButton);
 	}
+	
+	
 	
 	
 }

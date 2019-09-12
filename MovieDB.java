@@ -1,3 +1,6 @@
+/*
+ * This Class Will Launch the Movie Interface Application
+ */
 package module5;
 
 public class MovieDB {
@@ -8,7 +11,7 @@ public class MovieDB {
 		//MovieResultSetTableModel movieModel = new MovieResultSetTableModel();
 		movieView.setTitle("Movie Database Interface");
 		movieView.setVisible(true);
-		MovieAppController movieController = new MovieAppController(movieView);
+		MovieAppController movieController = new MovieAppController(movieView,movieView.getModel());
 		
 	}
 }
